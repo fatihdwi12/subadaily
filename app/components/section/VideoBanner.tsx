@@ -1,0 +1,118 @@
+"use client";
+
+import { useRef, useState, useCallback, useEffect } from "react";
+import useEmblaCarousel from "embla-carousel-react";
+
+const videoItems = [
+  { id: 1, src: "/videos/banner-1.mp4" },
+  { id: 2, src: "/videos/banner-2.mp4" },
+  { id: 3, src: "/videos/banner-3.mp4" },
+  { id: 4, src: "/videos/banner-4.mp4" },
+];
+
+export default function VideoBanner() {
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    loop: true,
+    align: "center",
+    dragFree: false,
+  });
+
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
+  // Play video aktif, pause yang lain
+  const playActiveVideo = useCallback((index: number) => {
+    videoRefs.current.forEach((video, i) => {
+      if (!video) return;
+      if (i === index) {
+        video.currentTime = 0;
+        video.play();
+      } else {
+        video.pause();
+        video.currentTime = 0;
+      }
+    });
+  }, []);
+
+  // Saat slide berubah
+  const onSelect = useCallback(() => {
+    if (!emblaApi) return;
+    const index = emblaApi.selectedScrollSnap();
+    setSelectedIndex(index);
+    playActiveVideo(index);
+  }, [emblaApi, playActiveVideo]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+    emblaApi.on("select", onSelect);
+    // Play video pertama saat mount
+    playActiveVideo(0);
+    return () => {
+      emblaApi.off("select", onSelect);
+    };
+  }, [emblaApi, onSelect, playActiveVideo]);
+
+  // Auto swipe saat video selesai
+  const handleVideoEnded = useCallback(
+    (index: number) => {
+      if (!emblaApi) return;
+      if (index === selectedIndex) {
+        emblaApi.scrollNext();
+      }
+    },
+    [emblaApi, selectedIndex],
+  );
+
+  const scrollTo = useCallback(
+    (index: number) => emblaApi && emblaApi.scrollTo(index),
+    [emblaApi],
+  );
+
+  return (
+    <section className="bg-black py-8 sm:py-10 lg:py-14">
+      <div className="max-w-screen-xl mx-auto px-4 sm:px-8 lg:px-12">
+        {/* Banner Container dengan rounded */}
+        <div className="relative w-full rounded-2xl overflow-hidden">
+          {/* Embla Viewport */}
+          <div ref={emblaRef} className="w-full overflow-hidden rounded-2xl">
+            <div className="flex">
+              {videoItems.map((item, index) => (
+                <div
+                  key={item.id}
+                  className="relative flex-[0_0_100%] min-w-0 aspect-[16/7] sm:aspect-[16/6] lg:aspect-[16/5]">
+                  <video
+                    ref={(el) => {
+                      videoRefs.current[index] = el;
+                    }}
+                    src={item.src}
+                    muted
+                    playsInline
+                    preload="auto"
+                    onEnded={() => handleVideoEnded(index)}
+                    className="w-full h-full object-cover object-center"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Dot Indicators */}
+          <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+            {videoItems.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => scrollTo(index)}
+                className={`h-1 sm:h-1.5 rounded-full transition-all duration-300 ${
+                  index === selectedIndex
+                    ? "bg-white w-4 sm:w-5"
+                    : "bg-white/40 w-1 sm:w-1.5"
+                }`}
+                aria-label={`Video ${index + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
