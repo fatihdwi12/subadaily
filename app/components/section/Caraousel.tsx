@@ -13,7 +13,7 @@ const mediaItems: MediaItem[] = [
     src: "/images/hero-1.jpg",
     alt: "Suba Daily Atmosphere",
   },
-  { id: 2, type: "video", src: "/videos/hero-2.mp4" },
+  { id: 2, type: "video", src: "/videos/banner-1.mp4" },
   {
     id: 3,
     type: "image",
