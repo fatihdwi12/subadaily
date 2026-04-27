@@ -125,7 +125,7 @@ export default function AdminBannerClient({
   };
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white">
+    <div className="min-h-screen bg-zinc-950 mt-10 text-white">
       {/* Toast */}
       {toast && (
         <div

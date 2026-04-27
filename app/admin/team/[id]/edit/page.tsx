@@ -7,8 +7,14 @@ export default async function EditMemberPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = await params;
+  const { id } = await params;  // ← wajib await
+
   const member = await prisma.team.findUnique({ where: { id } });
   if (!member) notFound();
-  return <TeamForm mode="edit" member={member} />;
+
+  return (
+    <div className="p-4 sm:p-6 lg:p-8">
+      <TeamForm mode="edit" member={member} />
+    </div>
+  );
 }

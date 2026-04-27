@@ -23,7 +23,7 @@ export default async function AtmosphereAdmin({
 
   return (
     <div className="p-1">
-      <div className="border border-white/15 rounded-2xl p-6 sm:p-8 bg-zinc-950/60">
+      <div className="border border-white/15 mt-10 rounded-2xl p-6 sm:p-8 bg-zinc-950/60">
         <h1 className="text-2xl sm:text-3xl font-bold text-white mb-1">
           Atmosphere
         </h1>

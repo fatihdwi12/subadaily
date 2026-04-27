@@ -58,3 +58,12 @@ model Team {
   status    String   @default("Active")
   createdAt DateTime @default(now())
 }
+
+model Message {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  content   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
