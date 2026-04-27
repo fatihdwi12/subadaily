@@ -40,3 +40,21 @@ model Atmosphere {
   slug        String   @unique
   status      String   @default("Active")  
 }
+
+model Banner {
+  id        String   @id @default(cuid())
+  filename  String
+  order     Int
+  status    String   @default("Active")
+  createdAt DateTime @default(now())
+}
+
+model Team {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  image     String?
+  order     Int      @default(0)
+  status    String   @default("Active")
+  createdAt DateTime @default(now())
+}

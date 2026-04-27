@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const navLinks = [
-  { href: "#atmost", label: "atmost" },
+  { href: "/atmosphere", label: "atmost" },
   { href: "#about", label: "about us" },
   { href: "#menu", label: "menu" },
   { href: "#team", label: "our team" },

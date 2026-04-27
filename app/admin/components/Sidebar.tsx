@@ -17,6 +17,7 @@ import {
 const navLinks = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { href: "/admin/atmosphere", label: "Atmosphere", icon: ImagePlay },
+  { href: "/admin/banner", label: "Banner", icon: ImagePlay },
   { href: "/admin/team", label: "Our Team", icon: Users },
   { href: "/admin/services", label: "Services", icon: Settings },
   { href: "/admin/messages", label: "Message", icon: MessageSquare },

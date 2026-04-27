@@ -3,14 +3,16 @@
 import { useRef, useState, useCallback, useEffect } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 
-const videoItems = [
-  { id: 1, src: "/videos/banner-1.mp4" },
-  { id: 2, src: "/videos/banner-2.mp4" },
-  { id: 3, src: "/videos/banner-3.mp4" },
-  { id: 4, src: "/videos/banner-4.mp4" },
-];
+type BannerItem = {
+  id: string;
+  src: string;
+};
 
-export default function VideoBanner() {
+type Props = {
+  items: BannerItem[];
+};
+
+export default function VideoBanner({ items }: Props) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
     align: "center",
@@ -20,7 +22,6 @@ export default function VideoBanner() {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
-  // Play video aktif, pause yang lain
   const playActiveVideo = useCallback((index: number) => {
     videoRefs.current.forEach((video, i) => {
       if (!video) return;
@@ -34,7 +35,6 @@ export default function VideoBanner() {
     });
   }, []);
 
-  // Saat slide berubah
   const onSelect = useCallback(() => {
     if (!emblaApi) return;
     const index = emblaApi.selectedScrollSnap();
@@ -45,20 +45,16 @@ export default function VideoBanner() {
   useEffect(() => {
     if (!emblaApi) return;
     emblaApi.on("select", onSelect);
-    // Play video pertama saat mount
     playActiveVideo(0);
     return () => {
       emblaApi.off("select", onSelect);
     };
   }, [emblaApi, onSelect, playActiveVideo]);
 
-  // Auto swipe saat video selesai
   const handleVideoEnded = useCallback(
     (index: number) => {
       if (!emblaApi) return;
-      if (index === selectedIndex) {
-        emblaApi.scrollNext();
-      }
+      if (index === selectedIndex) emblaApi.scrollNext();
     },
     [emblaApi, selectedIndex],
   );
@@ -68,15 +64,17 @@ export default function VideoBanner() {
     [emblaApi],
   );
 
+  // Fallback jika tidak ada banner aktif
+  if (items.length === 0) return null;
+
   return (
     <section className="bg-black py-8 sm:py-10 lg:py-14">
       <div className="max-w-screen-xl mx-auto px-4 sm:px-8 lg:px-12">
-        {/* Banner Container dengan rounded */}
         <div className="relative w-full rounded-2xl overflow-hidden">
           {/* Embla Viewport */}
           <div ref={emblaRef} className="w-full overflow-hidden rounded-2xl">
             <div className="flex">
-              {videoItems.map((item, index) => (
+              {items.map((item, index) => (
                 <div
                   key={item.id}
                   className="relative flex-[0_0_100%] min-w-0 aspect-[16/7] sm:aspect-[16/6] lg:aspect-[16/5]">
@@ -98,7 +96,7 @@ export default function VideoBanner() {
 
           {/* Dot Indicators */}
           <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
-            {videoItems.map((_, index) => (
+            {items.map((_, index) => (
               <button
                 key={index}
                 onClick={() => scrollTo(index)}
