@@ -7,7 +7,7 @@ export default async function EditMemberPage({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = await params;  // ← wajib await
+  const { id } = await params; // ← wajib await
 
   const member = await prisma.team.findUnique({ where: { id } });
   if (!member) notFound();

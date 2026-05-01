@@ -22,7 +22,7 @@ export default async function AtmosphereDetail({
     <>
       <Navbar />
       <main className="bg-black min-h-screen">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-20">
+        <div className="max-w-3xl mt-10 mx-auto px-4 sm:px-6 py-20">
           <Link
             href="/atmosphere"
             className="flex items-center gap-2 text-white/40 text-sm hover:text-white transition mb-8">

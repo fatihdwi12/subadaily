@@ -8,7 +8,7 @@ const navLinks = [
   { href: "/atmosphere", label: "atmost" },
   { href: "#about", label: "about us" },
   { href: "#menu", label: "menu" },
-  { href: "#team", label: "our team" },
+  { href: "/our-team", label: "our team" },
   { href: "#contact", label: "contact" },
 ];
 

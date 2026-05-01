@@ -46,7 +46,7 @@ export default async function OurTeam() {
         {/* More Button */}
         <div className="flex justify-center">
           <Link
-            href="/team"
+            href="/our-team"
             className="inline-flex items-center justify-between gap-6 border border-white/25 rounded-full px-7 py-3.5 text-white text-sm sm:text-base hover:bg-white hover:text-black transition-all duration-300 min-w-[220px] sm:min-w-[260px]">
             <span>More Ourteam</span>
             <span className="w-7 h-7 rounded-full border border-current flex items-center justify-center shrink-0">
