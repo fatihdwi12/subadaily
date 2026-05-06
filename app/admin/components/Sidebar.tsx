@@ -28,7 +28,18 @@ type NavItem = {
 
 const navLinks: NavItem[] = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
-  { href: "/admin/atmosphere", label: "Atmosphere", icon: ImagePlay },
+  {
+    label: "Atmosphere",
+    icon: ImagePlay,
+    children: [
+      { href: "/admin/atmosphere", label: "Content", icon: ImagePlay },
+      {
+        href: "/admin/atmosphere/hero-banner",
+        label: "Hero Banner",
+        icon: ImageIcon,
+      },
+    ],
+  },
   { href: "/admin/banner", label: "Banner", icon: ImagePlay },
   {
     label: "Our Team",
@@ -42,6 +53,8 @@ const navLinks: NavItem[] = [
       },
     ],
   },
+  // ... sisanya tidak berubah
+
   { href: "/admin/media-gallery", label: "Media", icon: ImagePlay },
   { href: "/admin/services", label: "Services", icon: Settings },
   { href: "/admin/messages", label: "Message", icon: MessageSquare },

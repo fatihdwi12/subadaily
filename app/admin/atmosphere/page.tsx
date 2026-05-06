@@ -1,6 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import AtmosphereTable from "@/app/admin/components/AtmosphereTable";
+import HeroBannerSection from "@/app/admin/team/HeroBannerSection";
+
+export const dynamic = "force-dynamic";
 
 export default async function AtmosphereAdmin({
   searchParams,
@@ -9,17 +12,23 @@ export default async function AtmosphereAdmin({
 }) {
   const { q = "" } = await searchParams;
 
-  const items = await prisma.atmosphere.findMany({
-    where: q
-      ? {
-          OR: [
-            { title: { contains: q, mode: "insensitive" } },
-            { description: { contains: q, mode: "insensitive" } },
-          ],
-        }
-      : undefined,
-    orderBy: { date: "desc" },
-  });
+  const [items, banners] = await Promise.all([
+    prisma.atmosphere.findMany({
+      where: q
+        ? {
+            OR: [
+              { title: { contains: q, mode: "insensitive" } },
+              { description: { contains: q, mode: "insensitive" } },
+            ],
+          }
+        : undefined,
+      orderBy: { date: "desc" },
+    }),
+    prisma.heroBanner.findMany({
+      where: { page: "atmosphere" },
+      orderBy: { createdAt: "desc" },
+    }),
+  ]);
 
   return (
     <div className="p-1">
@@ -31,6 +40,7 @@ export default async function AtmosphereAdmin({
           Make your amazing atmosphere
         </p>
 
+        {/* Search + Add */}
         <div className="flex items-center justify-between gap-4 mb-6">
           <form method="GET" className="flex-1 max-w-xs">
             <div className="flex items-center gap-2 bg-transparent border border-white/20 rounded-full px-4 py-2">

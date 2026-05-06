@@ -1,7 +1,9 @@
 import { prisma } from "@/lib/prisma";
-import Navbar from "@/app/components/layout/Navbar";
 import Footer from "@/app/components/layout/Footer";
 import AtmosphereCard from "@/app/components/AtmosphereCard";
+import Link from "next/link";
+
+export const dynamic = "force-dynamic"; // ← tambahkan ini
 
 export default async function AtmospherePage({
   searchParams,
@@ -10,28 +12,39 @@ export default async function AtmospherePage({
 }) {
   const { q = "" } = await searchParams;
 
-  const items = await prisma.atmosphere.findMany({
-    where: {
-      status: "Active",
-      ...(q
-        ? {
-            OR: [
-              { title: { contains: q, mode: "insensitive" } },
-              { description: { contains: q, mode: "insensitive" } },
-            ],
-          }
-        : {}),
-    },
-    orderBy: { date: "desc" },
-  });
+  const [items, heroBanner] = await Promise.all([
+    prisma.atmosphere.findMany({
+      where: {
+        status: "Active",
+        ...(q
+          ? {
+              OR: [
+                { title: { contains: q, mode: "insensitive" } },
+                { description: { contains: q, mode: "insensitive" } },
+              ],
+            }
+          : {}),
+      },
+      orderBy: { date: "desc" },
+    }),
+    prisma.heroBanner.findFirst({
+      where: { page: "atmosphere", status: "Active" },
+      orderBy: { createdAt: "desc" },
+    }),
+  ]);
+
+  const bannerImage = heroBanner?.image ?? "/images/hero-1.jpg";
+
+  // ... sisa kode tidak berubah
 
   return (
     <>
-      <Navbar />
-
-      {/* Hero Banner */}
+      {/* Hero Banner — dinamis dari DB */}
       <div className="relative w-full h-[35vh] sm:h-[45vh] md:h-[50vh] bg-zinc-900 overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/images/hero-1.jpg')] bg-cover bg-center opacity-60" />
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-60"
+          style={{ backgroundImage: `url('${bannerImage}')` }}
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black" />
       </div>
 
@@ -97,6 +110,27 @@ export default async function AtmospherePage({
               ))}
             </div>
           )}
+        </div>
+
+        <div className="mt-16 flex justify-center">
+          <Link
+            href="/"
+            className="inline-flex min-w-[200px] items-center justify-between gap-6 rounded-full border border-white/25 px-7 py-3.5 text-sm text-white transition-all duration-300 hover:bg-white hover:text-black">
+            <span>Kembali ke Home</span>
+            <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-current">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round">
+                <path d="M19 12H5M12 19l-7-7 7-7" />
+              </svg>
+            </span>
+          </Link>
         </div>
       </main>
 

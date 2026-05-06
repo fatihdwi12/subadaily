@@ -13,8 +13,10 @@ export type Banner = {
 
 export default function HeroBannerSection({
   initialBanners,
+  page = "our-team", // ← tambah prop ini
 }: {
   initialBanners: Banner[];
+  page?: string; // ← tambah type ini
 }) {
   const [banners, setBanners] = useState(initialBanners);
   const [file, setFile] = useState<File | null>(null);
@@ -35,7 +37,7 @@ export default function HeroBannerSection({
     setLoading(true);
     try {
       const form = new FormData();
-      form.append("page", "our-team");
+      form.append("page", page); // ← ganti "our-team" dengan prop page
       form.append("file", file);
       const res = await fetch("/api/hero-banner", {
         method: "POST",
@@ -55,6 +57,8 @@ export default function HeroBannerSection({
       setLoading(false);
     }
   }
+
+  // ─── Semua fungsi di bawah ini TIDAK BERUBAH ─────────────────────────────
 
   async function handleDelete(id: string) {
     if (!confirm("Hapus banner ini?")) return;
@@ -147,7 +151,6 @@ export default function HeroBannerSection({
           Upload Banner Baru
         </p>
         <form onSubmit={handleUpload} className="space-y-4">
-          {/* Drop zone */}
           <div
             role="button"
             tabIndex={0}
@@ -189,7 +192,6 @@ export default function HeroBannerSection({
             )}
           </div>
 
-          {/* Info file terpilih */}
           {file && (
             <div className="flex items-center justify-between rounded-xl border border-white/10 bg-zinc-900/50 px-4 py-2.5">
               <span className="truncate text-sm text-white/60">
@@ -224,12 +226,7 @@ export default function HeroBannerSection({
               <div
                 key={banner.id}
                 className={`flex items-center gap-4 rounded-xl border px-4 py-3 transition-colors
-                  ${
-                    banner.status === "Active"
-                      ? "border-emerald-900/50 bg-emerald-950/20"
-                      : "border-white/[0.07] bg-zinc-900/30"
-                  }`}>
-                {/* Thumbnail */}
+                  ${banner.status === "Active" ? "border-emerald-900/50 bg-emerald-950/20" : "border-white/[0.07] bg-zinc-900/30"}`}>
                 <div className="relative h-12 w-20 shrink-0 overflow-hidden rounded-lg bg-zinc-800">
                   <Image
                     src={banner.image}
@@ -239,16 +236,10 @@ export default function HeroBannerSection({
                     sizes="80px"
                   />
                 </div>
-
-                {/* Info */}
                 <div className="flex-1 min-w-0">
                   <span
                     className={`rounded-full px-2.5 py-0.5 text-xs font-medium
-                    ${
-                      banner.status === "Active"
-                        ? "bg-emerald-900/60 text-emerald-400"
-                        : "bg-zinc-800 text-white/30"
-                    }`}>
+                    ${banner.status === "Active" ? "bg-emerald-900/60 text-emerald-400" : "bg-zinc-800 text-white/30"}`}>
                     {banner.status}
                   </span>
                   <p className="mt-1 text-xs text-white/25">
@@ -259,10 +250,7 @@ export default function HeroBannerSection({
                     })}
                   </p>
                 </div>
-
-                {/* Actions */}
                 <div className="flex items-center gap-1 shrink-0">
-                  {/* Aktifkan (hanya jika inactive) */}
                   {banner.status === "Inactive" && (
                     <button
                       onClick={() => handleSetActive(banner.id)}
@@ -279,7 +267,6 @@ export default function HeroBannerSection({
                       </svg>
                     </button>
                   )}
-                  {/* Hapus */}
                   <button
                     onClick={() => handleDelete(banner.id)}
                     title="Hapus"
