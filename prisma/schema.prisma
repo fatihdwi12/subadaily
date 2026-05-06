@@ -87,3 +87,15 @@ model HeroBanner {
   status    String   @default("Active")
   createdAt DateTime @default(now())
 }
+
+model Gallery {
+  id        String   @id @default(cuid())
+  type      String   // "image" | "video"
+  filename  String
+  thumbnail String?  // untuk video preview
+  title     String?
+  order     Int      @default(0)
+  status    String   @default("Active")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

@@ -47,9 +47,9 @@ function MediaRow({
   const thumbSrc =
     item.type === "video"
       ? item.thumbnail
-        ? `/images/${item.thumbnail}`
+        ? `/images/media/${item.thumbnail}`
         : null
-      : `/images/${item.filename}`;
+      : `/images/media/${item.filename}`;
 
   return (
     <div className="flex items-center gap-4 rounded-2xl bg-neutral-900 border border-neutral-800 px-5 py-4 transition-colors hover:border-neutral-700">

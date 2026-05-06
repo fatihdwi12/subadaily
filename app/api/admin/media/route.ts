@@ -26,7 +26,7 @@ export async function POST(req: NextRequest) {
     const ext = file.name.split(".").pop() || "jpg";
     const filename = `image-${Date.now()}.${ext}`;
 
-    const uploadDir = path.join(process.cwd(), "public", "images");
+    const uploadDir = path.join(process.cwd(), "public", "images", "media");
     await mkdir(uploadDir, { recursive: true });
 
     const buffer = Buffer.from(await file.arrayBuffer());

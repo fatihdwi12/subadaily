@@ -2,6 +2,12 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import AtmosphereCard from "@/app/components/ui/AtmosphereCard";
 
+// Helper truncate
+const truncate = (text: string, words = 30) => {
+  const arr = text.split(" ");
+  return arr.length > words ? arr.slice(0, words).join(" ") + "..." : text;
+};
+
 export default async function OurAtmosphere() {
   const atmospheres = await prisma.atmosphere.findMany({
     orderBy: { date: "desc" },
@@ -23,7 +29,7 @@ export default async function OurAtmosphere() {
               key={item.id}
               image={item.image}
               title={item.title}
-              description={item.description}
+              description={truncate(item.description)} // ← dipotong 30 kata
               date={item.date}
               slug={item.slug}
             />

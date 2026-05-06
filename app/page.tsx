@@ -7,6 +7,7 @@ import OurAtmosphere from "@/app/components/section/OurAtmosphere";
 import Footer from "@/app/components/layout/Footer";
 import OurTeam from "@/app/components/section/OurTeam";
 import MediaGallerySection from "@/app/components/section/MediaGallerySection";
+import GallerySection from "@/app/components/section/GallerySection";
 
 export default async function HomePage() {
   const banners = await prisma.banner.findMany({
@@ -32,6 +33,7 @@ export default async function HomePage() {
 
         <OurTeam />
         <MediaGallerySection />
+        <GallerySection />
       </main>
       <Footer />
     </>

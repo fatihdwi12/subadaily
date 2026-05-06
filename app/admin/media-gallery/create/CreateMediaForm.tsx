@@ -45,7 +45,7 @@ export default function CreateMediaForm() {
         formData.append("order", order);
       }
 
-      const res = await fetch("/api/media", {
+      const res = await fetch("/api/admin/media", {
         method: "POST",
         body: formData,
       });

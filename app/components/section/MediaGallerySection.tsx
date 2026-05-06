@@ -14,7 +14,7 @@ export default async function MediaGallerySection() {
 
   const items = photos.map((p) => ({
     id: p.id,
-    src: `/images/${p.filename}`,
+    src: `/images/media/${p.filename}`,
     alt: p.title ?? p.filename,
     title: p.title ?? undefined,
     date: p.createdAt.toLocaleDateString("id-ID", {
