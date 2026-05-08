@@ -15,9 +15,9 @@ import {
   ImagePlay,
   ChevronDown,
   Image as ImageIcon,
+  UtensilsCrossed,
 } from "lucide-react";
 
-// ── Tipe nav ──────────────────────────────────────────────────────────────────
 type NavItem = {
   href?: string;
   label: string;
@@ -53,12 +53,23 @@ const navLinks: NavItem[] = [
       },
     ],
   },
-  // ... sisanya tidak berubah
-
+  // ← Menu dengan dropdown (hapus duplikat standalone di bawah)
+  {
+    label: "Menu",
+    icon: UtensilsCrossed,
+    children: [
+      { href: "/admin/menu", label: "Daftar Menu", icon: UtensilsCrossed },
+      {
+        href: "/admin/menu/hero-banner",
+        label: "Hero Banner",
+        icon: ImageIcon,
+      },
+    ],
+  },
   { href: "/admin/media-gallery", label: "Media", icon: ImagePlay },
+  { href: "/admin/gallery", label: "Gallery", icon: ImageIcon },
   { href: "/admin/services", label: "Services", icon: Settings },
   { href: "/admin/messages", label: "Message", icon: MessageSquare },
-  { href: "/admin/gallery", label: "Gallery", icon: ImageIcon },
 ];
 
 const Logo = ({ width, eager }: { width: number; eager?: boolean }) => (
@@ -73,7 +84,6 @@ const Logo = ({ width, eager }: { width: number; eager?: boolean }) => (
   />
 );
 
-// ── Dropdown Item ─────────────────────────────────────────────────────────────
 function DropdownItem({
   item,
   onClose,
@@ -82,14 +92,11 @@ function DropdownItem({
   onClose?: () => void;
 }) {
   const pathname = usePathname();
-
-  // Auto-buka jika salah satu child sedang aktif
   const isChildActive = item.children?.some((c) => pathname.startsWith(c.href));
   const [open, setOpen] = useState(!!isChildActive);
 
   return (
     <li>
-      {/* Trigger dropdown */}
       <button
         onClick={() => setOpen((v) => !v)}
         className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm transition-all duration-200
@@ -106,12 +113,15 @@ function DropdownItem({
         />
       </button>
 
-      {/* Sub-items */}
       {open && (
         <ul className="mt-0.5 flex flex-col gap-0.5 pl-9">
           {item.children?.map((child) => {
+            // ← Khusus /admin/menu gunakan exact match agar tidak highlight semua child
             const active =
-              pathname === child.href || pathname.startsWith(child.href + "/");
+              child.href === "/admin/menu"
+                ? pathname === "/admin/menu"
+                : pathname === child.href ||
+                  pathname.startsWith(child.href + "/");
             return (
               <li key={child.href}>
                 <Link
@@ -135,7 +145,6 @@ function DropdownItem({
   );
 }
 
-// ── NavLinks ──────────────────────────────────────────────────────────────────
 function NavLinks({ onClose }: { onClose?: () => void }) {
   const pathname = usePathname();
 
@@ -170,7 +179,6 @@ function NavLinks({ onClose }: { onClose?: () => void }) {
   );
 }
 
-// ── Main Sidebar ──────────────────────────────────────────────────────────────
 export default function Sidebar() {
   const [open, setOpen] = useState(false);
 

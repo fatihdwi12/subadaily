@@ -99,3 +99,17 @@ model Gallery {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model MenuItem {
+  id          String   @id @default(cuid())
+  name        String
+  price       Int
+  image       String?
+  category    String
+  slug        String   @unique
+  description String?
+  status      String   @default("Active")
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
