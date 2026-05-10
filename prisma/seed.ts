@@ -1,11 +1,26 @@
 import { PrismaClient } from "../app/generated/prisma";
 import { PrismaPg } from "@prisma/adapter-pg";
+import bcrypt from "bcryptjs";
 import "dotenv/config";
 
 const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
+  // ─── Admin User ───────────────────────────────────────────
+  const hashed = await bcrypt.hash("password123", 12);
+  await prisma.user.upsert({
+    where: { email: "admin@subadaily.com" },
+    update: {},
+    create: {
+      email: "admin@subadaily.com",
+      password: hashed,
+      name: "Admin",
+    },
+  });
+  console.log("✅ Admin user seeded!");
+
+  // ─── Atmosphere ───────────────────────────────────────────
   await prisma.atmosphere.createMany({
     data: [
       {
@@ -43,8 +58,7 @@ async function main() {
     ],
     skipDuplicates: true,
   });
-
-  console.log("✅ Seed berhasil!");
+  console.log("✅ Atmosphere seeded!");
 }
 
 main()

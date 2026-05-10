@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
+import { signOut } from "next-auth/react"; // ← tambah ini
+
 import {
   LayoutDashboard,
   Users,
@@ -69,7 +71,7 @@ const navLinks: NavItem[] = [
   },
   { href: "/admin/media-gallery", label: "Media", icon: ImagePlay },
   { href: "/admin/gallery", label: "Gallery", icon: ImageIcon },
-  { href: "/admin/services", label: "Services", icon: Settings },
+
   { href: "/admin/about", label: "About", icon: Info },
   { href: "/admin/message", label: "Message", icon: MessageSquare },
 ];
@@ -199,7 +201,9 @@ export default function Sidebar() {
           <NavLinks />
 
           <div className="border-t border-white/10 px-3 py-4">
-            <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-white/60 transition-all duration-200 hover:bg-white/10 hover:text-white">
+            <button
+              onClick={() => signOut({ callbackUrl: "/admin/login" })} // ← tambah ini
+              className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-white/60 transition-all duration-200 hover:bg-white/10 hover:text-white">
               <LogOut size={18} />
               Logout
             </button>
@@ -213,10 +217,10 @@ export default function Sidebar() {
           <Logo width={90} eager />
         </Link>
         <button
-          onClick={() => setOpen(!open)}
-          className="rounded-lg p-2 text-white transition hover:bg-white/10"
-          aria-label="Toggle Menu">
-          {open ? <X size={20} /> : <Menu size={20} />}
+          onClick={() => signOut({ callbackUrl: "/admin/login" })} // ← tambah ini
+          className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-white/60 transition-all duration-200 hover:bg-white/10 hover:text-white">
+          <LogOut size={18} />
+          Logout
         </button>
       </div>
 

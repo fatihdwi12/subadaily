@@ -17,14 +17,16 @@ export default function AtmosphereCard({
   slug,
 }: Props) {
   return (
-    <article className="border border-white/10 rounded-2xl overflow-hidden bg-zinc-950 hover:border-white/25 transition-all duration-300 flex flex-col">
+    <Link
+      href={`/atmosphere/${slug}`}
+      className="group block border border-white/10 rounded-2xl overflow-hidden bg-zinc-950 hover:border-white/25 transition-all duration-300 flex flex-col">
       <div className="relative w-full aspect-[4/3] bg-zinc-900 overflow-hidden">
         <Image
           src={image}
           alt={title}
           fill
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-          className="object-cover transition-transform duration-500 hover:scale-105"
+          className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
       </div>
       <div className="flex flex-col flex-1 p-4">
@@ -42,13 +44,12 @@ export default function AtmosphereCard({
               year: "numeric",
             })}
           </span>
-          <Link
-            href={`/atmosphere/${slug}`}
-            className="text-white/60 text-xs font-medium hover:text-white transition">
+          {/* ← Ganti Link jadi span, navigasi sudah ditangani wrapper */}
+          <span className="text-white/60 text-xs font-medium group-hover:text-white transition">
             Read More
-          </Link>
+          </span>
         </div>
       </div>
-    </article>
+    </Link>
   );
 }
