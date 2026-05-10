@@ -113,3 +113,32 @@ model MenuItem {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+model AboutContent {
+  id        String   @id @default(cuid())
+  // Intro
+  tagline   String   @default("More Than Just a Coffee Shop.")
+  intro1    String   @default("")
+  intro2    String   @default("")
+  // Stats
+  stat1Number String @default("2019")
+  stat1Label  String @default("Tahun Berdiri")
+  stat2Number String @default("50+")
+  stat2Label  String @default("Menu Tersedia")
+  stat3Number String @default("10K+")
+  stat3Label  String @default("Pelanggan Setia")
+  stat4Number String @default("1")
+  stat4Label  String @default("Lokasi, Penuh Cinta")
+  // Visual Photos
+  photo1    String?
+  photo2    String?
+  updatedAt DateTime @updatedAt
+}
+
+model AboutValue {
+  id     String @id @default(cuid())
+  number String
+  title  String
+  desc   String
+  order  Int    @default(0)
+}

@@ -6,17 +6,17 @@ import Link from "next/link";
 
 const navLinks = [
   { href: "/atmosphere", label: "atmost" },
-  { href: "#about", label: "about us" },
+  { href: "/about", label: "about us" },
   { href: "/menu", label: "menu" },
   { href: "/our-team", label: "our team" },
-  { href: "#contact", label: "contact" },
+  { href: "/contact", label: "contact" },
 ];
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <header className="fixed top-0 left-0 w-full z-50 bg-black">
+    <header className="fixed top-0 left-0 w-full z-50 bg-black/80 backdrop-blur-sm border-b border-white/10">
       <div className="w-full px-4 sm:px-6 lg:px-10 py-2  sm:py-3 lg:py-4 flex items-center justify-between">
         {/* Logo */}
         <Link href="/">

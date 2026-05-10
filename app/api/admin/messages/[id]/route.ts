@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { unlink } from "fs/promises";
-import path from "path";
 
 export async function PATCH(
   req: NextRequest,
@@ -10,11 +8,11 @@ export async function PATCH(
   try {
     const { id } = await params;
     const body = await req.json();
-    const item = await prisma.heroBanner.update({
+    const message = await prisma.message.update({
       where: { id },
       data: body,
     });
-    return NextResponse.json(item);
+    return NextResponse.json(message);
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Gagal mengupdate." }, { status: 500 });
@@ -27,23 +25,7 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-
-    const item = await prisma.heroBanner.findUnique({ where: { id } });
-    if (!item) {
-      return NextResponse.json({ error: "Tidak ditemukan." }, { status: 404 });
-    }
-
-    const filePath = path.join(
-      process.cwd(),
-      "public",
-      "images",
-      "hero",
-      item.image,
-    );
-    await unlink(filePath).catch(() => {});
-
-    await prisma.heroBanner.delete({ where: { id } });
-
+    await prisma.message.delete({ where: { id } });
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error(error);

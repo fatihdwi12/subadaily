@@ -11,6 +11,7 @@ import {
   MessageSquare,
   LogOut,
   Menu,
+  Info,
   X,
   ImagePlay,
   ChevronDown,
@@ -69,7 +70,8 @@ const navLinks: NavItem[] = [
   { href: "/admin/media-gallery", label: "Media", icon: ImagePlay },
   { href: "/admin/gallery", label: "Gallery", icon: ImageIcon },
   { href: "/admin/services", label: "Services", icon: Settings },
-  { href: "/admin/messages", label: "Message", icon: MessageSquare },
+  { href: "/admin/about", label: "About", icon: Info },
+  { href: "/admin/message", label: "Message", icon: MessageSquare },
 ];
 
 const Logo = ({ width, eager }: { width: number; eager?: boolean }) => (
