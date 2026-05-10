@@ -13,9 +13,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Simpan ke database
     const msg = await prisma.message.create({
-      data: { name, email, message },
+      data: { name, email, content: message }, // ← ganti field name ke content
     });
 
     // Kirim notifikasi email ke pengelola (non-blocking)

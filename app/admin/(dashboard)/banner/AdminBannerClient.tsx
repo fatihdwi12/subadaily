@@ -10,6 +10,7 @@ import {
 
 type Banner = {
   id: string;
+  createdAt: Date;
   filename: string;
   order: number;
   status: "Active" | "Inactive";
@@ -99,7 +100,9 @@ export default function AdminBannerClient({
       if (result.success && result.banner) {
         setBanners((prev) =>
           prev.map((b) =>
-            b.id === id ? { ...b, status: result.banner!.status } : b,
+            b.id === id
+              ? { ...b, status: result.banner!.status as "Active" | "Inactive" }
+              : b,
           ),
         );
       }

@@ -6,7 +6,7 @@ type Message = {
   id: string;
   name: string;
   email: string;
-  message: string;
+  content: string;
   read: boolean;
   createdAt: Date;
 };
@@ -186,7 +186,7 @@ export default function MessagesManager({
                     {msg.email}
                   </p>
                   <p className="mt-1.5 line-clamp-2 text-xs text-neutral-500 pl-4">
-                    {msg.message}
+                    {msg.content}
                   </p>
                 </button>
               ))
@@ -285,7 +285,7 @@ export default function MessagesManager({
                 {/* Pesan */}
                 <div className="rounded-2xl border border-neutral-800 bg-neutral-900/50 p-6">
                   <p className="whitespace-pre-wrap text-sm leading-relaxed text-white/80">
-                    {selected.message}
+                    {selected.content}
                   </p>
                 </div>
 

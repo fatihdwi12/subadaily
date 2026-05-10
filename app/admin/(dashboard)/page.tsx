@@ -209,7 +209,7 @@ export default async function AdminDashboard() {
                       {msg.email}
                     </p>
                     <p className="mt-1 line-clamp-1 text-xs text-white/40">
-                      {msg.message}
+                      {msg.content}
                     </p>
                   </div>
 

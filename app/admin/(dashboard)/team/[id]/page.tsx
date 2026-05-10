@@ -9,17 +9,14 @@ export default async function MemberDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const numId = parseInt(id, 10); // ← tambah ini
+  const numId = parseInt(id, 10);
 
-  if (isNaN(numId)) notFound(); // ← tambah ini
+  if (isNaN(numId)) notFound();
 
   const member = await prisma.team.findUnique({
-    where: { id: numId }, // ← ganti dari parseInt(id,10) ke numId
+    where: { id },
   });
-
   if (!member) notFound();
-
-  // ... sisa kode tidak perlu diubah
 
   return (
     <div className="p-4 sm:p-6 lg:p-8">

@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import AtmosphereTable from "@/app/admin/components/AtmosphereTable";
-import HeroBannerSection from "@/app/admin/team/HeroBannerSection";
+import HeroBannerSection from "@/app/admin/(dashboard)/team/HeroBannerSection";
 
 export const dynamic = "force-dynamic";
 
