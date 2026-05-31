@@ -10,8 +10,8 @@ const publicSans = Public_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Company Profile",
-  description: "Company Profile Website",
+  title: "Subadaily",
+  description: "Subadaily Profile",
 };
 
 export default function RootLayout({
