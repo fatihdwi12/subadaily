@@ -1,12 +1,20 @@
 import type { NextConfig } from "next";
 
-const nextConfig = {
-  // ...konfigurasi yang sudah ada...
-
+const nextConfig: NextConfig = {
   experimental: {
     serverActions: {
-      bodySizeLimit: "50mb", // untuk Server Actions
+      bodySizeLimit: "50mb",
     },
+  },
+
+  images: {
+    localPatterns: [{ pathname: "/images/**" }, { pathname: "/videos/**" }],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "**",
+      },
+    ],
   },
 };
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation"; // ✅ tambah import
 import Image from "next/image";
 
 type GalleryItem = {
@@ -18,6 +19,7 @@ export default function GalleryAdminList({
 }: {
   initialItems: GalleryItem[];
 }) {
+  const router = useRouter(); // ✅ tambah ini
   const [items, setItems] = useState(initialItems);
   const [toast, setToast] = useState<{ msg: string; ok: boolean } | null>(null);
 
@@ -32,6 +34,7 @@ export default function GalleryAdminList({
     if (res.ok) {
       setItems((prev) => prev.filter((i) => i.id !== id));
       showToast("Item dihapus.");
+      router.refresh(); // ✅ tambah ini
     } else {
       showToast("Gagal menghapus.", false);
     }
@@ -47,6 +50,7 @@ export default function GalleryAdminList({
     if (res.ok) {
       setItems((prev) => prev.map((i) => (i.id === id ? { ...i, status } : i)));
       showToast(`Status diubah ke ${status}.`);
+      router.refresh(); // ✅ tambah ini
     } else {
       showToast("Gagal mengubah status.", false);
     }

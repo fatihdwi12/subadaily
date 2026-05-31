@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 
 export async function PUT(
   req: Request,
@@ -20,6 +21,10 @@ export async function PUT(
     },
   });
 
+  revalidatePath("/");
+  revalidatePath("/atmosphere");
+  revalidatePath("/admin/atmosphere");
+
   return NextResponse.json(item);
 }
 
@@ -29,5 +34,10 @@ export async function DELETE(
 ) {
   const { id } = await params;
   await prisma.atmosphere.delete({ where: { id: parseInt(id) } });
+
+  revalidatePath("/");
+  revalidatePath("/atmosphere");
+  revalidatePath("/admin/atmosphere");
+
   return NextResponse.json({ success: true });
 }

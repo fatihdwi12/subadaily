@@ -39,8 +39,8 @@ export default function EditAtmosphereForm({ item }: { item: AtmosphereItem }) {
     });
 
     if (res.ok) {
-      router.push("/admin/atmosphere");
       router.refresh();
+      router.push("/admin/atmosphere");
     } else {
       alert("Gagal menyimpan perubahan.");
     }

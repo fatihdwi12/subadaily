@@ -1,4 +1,5 @@
-// app/api/gallery/route.ts
+// ✅ app/api/gallery/route.ts — versi lengkap yang sudah diperbaiki
+
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
@@ -8,15 +9,21 @@ export async function GET() {
     where: { status: "Active" },
     orderBy: { order: "asc" },
   });
-  return NextResponse.json(items);
+
+  // ✅ Tambahkan header agar response tidak di-cache browser/CDN
+  return NextResponse.json(items, {
+    headers: {
+      "Cache-Control": "no-store, no-cache, must-revalidate",
+      Pragma: "no-cache",
+    },
+  });
 }
 
 export async function POST(req: Request) {
   const body = await req.json();
   const item = await prisma.gallery.create({ data: body });
 
-  revalidatePath("/gallery"); // ← sesuaikan dengan path halaman Anda
-  revalidatePath("/"); // ← jika homepage juga menampilkan data
+  revalidatePath("/");
   return NextResponse.json(item);
 }
 
@@ -27,7 +34,7 @@ export async function PUT(req: Request) {
     data: body,
   });
 
-  revalidatePath("/gallery");
+  revalidatePath("/");
   return NextResponse.json(item);
 }
 
@@ -35,6 +42,6 @@ export async function DELETE(req: Request) {
   const { id } = await req.json();
   await prisma.gallery.delete({ where: { id } });
 
-  revalidatePath("/gallery");
+  revalidatePath("/");
   return NextResponse.json({ success: true });
 }

@@ -24,14 +24,13 @@ function MediaSlide({
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [playing, setPlaying] = useState(false);
-  const [muted, setMuted] = useState(true); // ← dipindah ke sini
+  const [muted, setMuted] = useState(true);
 
-  // Reset muted & autoplay setiap ganti slide
   useEffect(() => {
     if (item.type !== "video") return;
     const v = videoRef.current;
     if (!v) return;
-    setMuted(true); // ← reset ke muted saat slide berganti
+    setMuted(true);
     v.currentTime = 0;
     v.muted = true;
     v.play()
@@ -72,7 +71,6 @@ function MediaSlide({
           onClick={togglePlay}
         />
 
-        {/* Play overlay */}
         {!playing && (
           <button
             onClick={togglePlay}
@@ -89,7 +87,6 @@ function MediaSlide({
           </button>
         )}
 
-        {/* Pause overlay */}
         {playing && (
           <button
             onClick={togglePlay}
@@ -107,13 +104,11 @@ function MediaSlide({
           </button>
         )}
 
-        {/* Tombol Mute/Unmute */}
         <button
           onClick={toggleMute}
           className="absolute bottom-3 left-3 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/60 text-white backdrop-blur-sm transition hover:bg-black/80"
           aria-label={muted ? "Unmute" : "Mute"}>
           {muted ? (
-            // Icon mute (coretan)
             <svg
               width="16"
               height="16"
@@ -128,7 +123,6 @@ function MediaSlide({
               <line x1="17" y1="9" x2="23" y2="15" />
             </svg>
           ) : (
-            // Icon volume
             <svg
               width="16"
               height="16"
@@ -145,7 +139,6 @@ function MediaSlide({
           )}
         </button>
 
-        {/* Label VIDEO */}
         <div className="absolute top-3 right-3">
           <span className="rounded-full bg-black/60 px-2.5 py-1 text-xs font-medium text-white backdrop-blur-sm">
             VIDEO
@@ -175,8 +168,9 @@ export default function GallerySection() {
   const [loading, setLoading] = useState(true);
   const touchStartX = useRef<number | null>(null);
 
+  // ✅ PERUBAHAN: tambah cache: "no-store" agar tidak cache di browser
   useEffect(() => {
-    fetch("/api/gallery")
+    fetch("/api/gallery", { cache: "no-store" })
       .then((r) => r.json())
       .then((data) => {
         const active = Array.isArray(data)
@@ -190,7 +184,6 @@ export default function GallerySection() {
   const next = () => setCurrent((c) => (c === items.length - 1 ? 0 : c + 1));
   const prev = () => setCurrent((c) => (c === 0 ? items.length - 1 : c - 1));
 
-  // Auto-slide hanya untuk image
   useEffect(() => {
     if (items.length === 0) return;
     if (items[current]?.type === "video") return;
