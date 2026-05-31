@@ -8,7 +8,7 @@ const nextConfig: NextConfig = {
   },
 
   images: {
-    localPatterns: [{ pathname: "/images/**" }, { pathname: "/videos/**" }],
+    unoptimized: true, // ✅ bypass /_next/image yang error 400
     remotePatterns: [
       {
         protocol: "https",
