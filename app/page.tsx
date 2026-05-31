@@ -1,3 +1,5 @@
+// app/page.tsx
+
 import { prisma } from "@/lib/prisma";
 import Navbar from "@/app/components/layout/Navbar";
 import Carousel from "@/app/components/section/Caraousel";
@@ -8,6 +10,9 @@ import Footer from "@/app/components/layout/Footer";
 import OurTeam from "@/app/components/section/OurTeam";
 import MediaGallerySection from "@/app/components/section/MediaGallerySection";
 import GallerySection from "@/app/components/section/GallerySection";
+
+// ✅ FIX: pindahkan ke sini dari MediaGallerySection.tsx
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
   const banners = await prisma.banner.findMany({
@@ -30,7 +35,6 @@ export default async function HomePage() {
         <OurStory />
         <VideoBanner items={bannerItems} />
         <OurAtmosphere />
-
         <OurTeam />
         <MediaGallerySection />
         <GallerySection />

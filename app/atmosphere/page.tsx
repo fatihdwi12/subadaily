@@ -35,7 +35,6 @@ export default async function AtmospherePage({
 
   const bannerImage = heroBanner?.image ?? "/images/hero-1.jpg";
 
-  // ... sisa kode tidak berubah
 
   return (
     <>

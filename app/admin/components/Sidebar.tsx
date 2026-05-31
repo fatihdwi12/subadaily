@@ -213,14 +213,15 @@ export default function Sidebar() {
 
       {/* ── MOBILE TOP BAR ── */}
       <div className="md:hidden fixed top-0 left-0 right-0 z-50 flex h-16 items-center justify-between border-b border-white/10 bg-zinc-900 px-4">
-        <Link href="/admin">
+        <Link href="/admin" onClick={() => setOpen(false)}>
           <Logo width={90} eager />
         </Link>
+
         <button
-          onClick={() => signOut({ callbackUrl: "/admin/login" })} // ← tambah ini
-          className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-white/60 transition-all duration-200 hover:bg-white/10 hover:text-white">
-          <LogOut size={18} />
-          Logout
+          onClick={() => setOpen(true)}
+          className="rounded-lg p-2 text-white/70 transition hover:bg-white/10 hover:text-white"
+          aria-label="Open sidebar menu">
+          <Menu size={22} />
         </button>
       </div>
 

@@ -13,10 +13,13 @@ export async function POST(req: Request) {
     );
   }
 
-  // Validasi ukuran maks 5MB
-  if (file.size > 5 * 1024 * 1024) {
+  // Validasi ukuran: video maks 50MB, gambar maks 5MB
+  const isVideo = file.type.startsWith("video/");
+  const maxSize = isVideo ? 50 * 1024 * 1024 : 5 * 1024 * 1024;
+
+  if (file.size > maxSize) {
     return NextResponse.json(
-      { error: "File terlalu besar (maks 5MB)" },
+      { error: `File terlalu besar (maks ${isVideo ? "50MB" : "5MB"})` },
       { status: 400 },
     );
   }
@@ -24,18 +27,19 @@ export async function POST(req: Request) {
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
 
-  // Buat nama file unik
   const ext = path.extname(file.name);
   const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}${ext}`;
-  const uploadDir = path.join(process.cwd(), "public/images/uploads");
 
-  // Buat folder jika belum ada
+  // Tentukan folder berdasarkan tipe file
+  const subDir = isVideo ? "videos" : "images/uploads";
+  const uploadDir = path.join(process.cwd(), "public", subDir);
+
   await mkdir(uploadDir, { recursive: true });
 
   const filePath = path.join(uploadDir, filename);
   await writeFile(filePath, buffer);
 
   return NextResponse.json({
-    path: `/images/uploads/${filename}`,
+    path: `/${subDir}/${filename}`,
   });
 }

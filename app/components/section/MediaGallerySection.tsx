@@ -3,8 +3,6 @@
 import { prisma } from "@/lib/prisma";
 import MediaGalleryGrid from "@/app/components/ui/MediaGalleryGrid";
 
-export const dynamic = "force-dynamic"; // ← tambahkan ini
-
 export default async function MediaGallerySection() {
   const photos = await prisma.media.findMany({
     where: { status: "Active", type: "image" },
